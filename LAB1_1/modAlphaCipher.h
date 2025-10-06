@@ -7,7 +7,7 @@ using namespace std;
 
 class modAlphaCipher {
     private:
-        wstring numAlpha = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        wstring numAlpha = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ "; // ПРОБЕЛ ВКЛЮЧЕН В АЛФАВИТ
         map <wchar_t,int> alphaNum;
         vector <int> key;
         vector<int> convert(const wstring& s);
