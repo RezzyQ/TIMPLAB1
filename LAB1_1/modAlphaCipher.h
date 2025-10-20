@@ -3,18 +3,19 @@
 #include <string>
 #include <map>
 
-using namespace std;
-
-class modAlphaCipher {
-    private:
-        wstring numAlpha = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ "; // ПРОБЕЛ ВКЛЮЧЕН В АЛФАВИТ
-        map <wchar_t,int> alphaNum;
-        vector <int> key;
-        vector<int> convert(const wstring& s);
-        wstring convert(const vector<int>& v);
-    public:
-        modAlphaCipher()=delete;
-        modAlphaCipher(const wstring& skey);
-        wstring encrypt(const wstring& open_text);
-        wstring decrypt(const wstring& cipher_text);
+class modAlphaCipher
+{
+private:
+    std::wstring numAlpha = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+    std::map<wchar_t, int> alphaNum;
+    std::vector<int> key;
+    
+    std::vector<int> convert(const std::wstring& s);
+    std::wstring convert(const std::vector<int>& v);
+    
+public:
+    modAlphaCipher() = delete;
+    modAlphaCipher(const std::wstring& skey);
+    std::wstring encrypt(const std::wstring& open_text);
+    std::wstring decrypt(const std::wstring& cipher_text);
 };
