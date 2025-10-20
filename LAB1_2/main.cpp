@@ -1,39 +1,43 @@
-#include <iostream>
-#include <Cipher.h>
-#include <string>
-bool isValid(const int k, string& text)
-{
-    int razm = text.size();
-    if(k > razm)
-        return false;
-    return true;
-}
-int main()
-{
-    string text;
-    int key;
-    unsigned vibor;
-    cout << "Текст: ";
-    cin >> text;
-    cout << "Ключ(кол-во столбцов): ";
-    cin >> key;
-    if(!isValid(key, text)) {
-        cout << "Неправильный ключ\n";
-        return 1;
-    }
-    cout << "Ключ загружен\n";
-    Cipher shifr(key);
-    do {
-        cout << "Что сделать?(Выход-0, Зашифровать-A, Расшифровать-2): ";
-        cin >> vibor;
-        if(vibor > 2) {
-            cout << "Ошибка\n" << endl;
-        } else if(vibor > 0) {
-            if(vibor == 1)
-                cout << shifr.encrypt(text) << endl;
-            else
-                cout << shifr.decrypt(text) << endl;
+#include <iostream>  
+#include <locale>  
+#include <string>  
+#include "module.h"  
+
+int main() {  
+    std::locale::global(std::locale(""));  
+    std::wcout.imbue(std::locale());  
+    std::wcin.imbue(std::locale());  
+
+    int key;  
+    std::wcout << L"кол-во столбцов: ";  
+    std::wcin >> key;  
+    std::wcin.ignore();  
+
+    RouteCipher cipher(key);  
+
+    while (true) {  
+        std::wcout << L"\n1 Шифровать\n2 Дешифровать\n3 Выход\n";  
+        int choice;  
+        std::wcin >> choice;  
+        std::wcin.ignore();  
+
+        if (choice == 3) break;
+
+        if (choice != 1 && choice != 2) continue;
+
+        std::wstring text;
+        std::wcout << L"Введите текст: ";
+        std::getline(std::wcin, text);
+
+        if (text.empty()) continue;
+
+        if (choice == 1) {
+            std::wstring encrypted = cipher.encrypt(text);
+            std::wcout << L"Зашифровано: " << encrypted << std::endl;
+        } else {
+            std::wstring decrypted = cipher.decrypt(text);
+            std::wcout << L"Расшифровано: " << decrypted << std::endl;
         }
-    } while(vibor != 0);
+    }
     return 0;
 }
