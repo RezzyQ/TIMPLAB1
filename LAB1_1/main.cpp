@@ -1,61 +1,29 @@
 #include <iostream>
-#include <cctype>
 #include <locale>
 #include "modAlphaCipher.h"
 
-using namespace std;
-
-bool isValid(const wstring &s) {
-    locale loc("ru_RU.UTF-8");
-    for(auto c:s) {
-        // Разрешаем пробелы в тексте
-        if(c == L' ') {
-            continue;
-        }
-        if(!isalpha(c, loc) || !isupper(c, loc)) {
-            return false;
-        }
-    }
-    return true;
+void check(const std::wstring& Text, const std::wstring& key)
+{
+    std::wstring cipherText;
+    std::wstring decryptedText;
+    modAlphaCipher cipher(key);
+    cipherText = cipher.encrypt(Text);
+    decryptedText = cipher.decrypt(cipherText);
+    std::wcout << L"key=" << key << std::endl;
+    std::wcout << Text << std::endl;
+    std::wcout << cipherText << std::endl;
+    std::wcout << decryptedText << std::endl;
+    if (Text == decryptedText)
+        std::wcout << L"Ok\n";
+    else
+        std::wcout << L"Err\n";
 }
 
-int main() {
-    locale loc("ru_RU.UTF-8");
-    locale::global(loc);
-    wstring key, text;
-    unsigned op;
-    
-    wcout << L"Шифр готов. Введите ключ: ";
-    getline(wcin, key);
-    if(!isValid(key)) {
-        wcerr << L"Неверный ключ!" << endl;
-        return 1;
-    }
-    wcout << L"Ключ загружен." << endl;
-    modAlphaCipher cipher(key);
-    
-    do {
-        wcout << L"Какую операцию выполнить (0-выйти, 1-зашифровать, 2-расшифровать): ";
-        wcin >> op;
-        wcin.ignore(); // Очищаем буфер после ввода числа
-        
-        if(op > 2) {
-            wcout << L"Неверный номер операции" << endl;
-        } else if(op > 0) {
-            wcout << L"Введите текст: ";
-            getline(wcin, text); // Читаем всю строку до enter
-            
-            if(isValid(text)) {
-                if(op == 1) {
-                    wcout << L"Зашифрованный текст: " << cipher.encrypt(text) << endl;
-                } else {
-                    wcout << L"Расшифрованный текст: " << cipher.decrypt(text) << endl;
-                }
-            } else {
-                wcout << L"Неверный текст" << endl;
-            }
-        }
-    } while(op != 0);
-    
+int main(int argc, char **argv)
+{
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    check(L"ПСАКМРТИМПЯПСПА", L"ПЛАЩ");
+    check(L"КАКЖЕХОЧУЭКЗАМЕНАВТОМАТОМ", L"ЭХО");
+    check(L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ", L"ТИМП");
     return 0;
 }
